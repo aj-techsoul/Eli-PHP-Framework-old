@@ -1,0 +1,26 @@
+RewriteEngine On
+
+#RewriteCond %{HTTPS} off
+# First rewrite to HTTPS:
+# Don't put www. here. If it is already there it will be included, if not
+# the subsequent rule will catch it.
+#RewriteRule .* http://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+# Now, rewrite any request to the wrong domain to use www.
+RewriteCond %{HTTP_HOST} !^www\.
+RewriteRule .* http://www.%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+RewriteCond %{REQUEST_METHOD} ^TRACE
+RewriteRule ^ - [F]
+
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-l
+
+RewriteRule ^(.+)$ index.php?url=$1 [QSA,L]
+
+# RewriteCond %{HTTP_REFERER} !^http(s)?://(www\.)?localhost[NC]
+# RewriteRule \.(jpg|jpeg|png|gif)$ https://openclipart.org/image/240px/svg_to_png/234001/no_glass_cameras.png [NC,R,L]
+
+RewriteCond %{REQUEST_METHOD} ^TRACE
+RewriteRule ^ - [F]
+
